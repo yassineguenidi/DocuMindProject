@@ -1,0 +1,18 @@
+# Node.js
+node_modules/
+dist/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Environnement
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
