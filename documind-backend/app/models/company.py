@@ -1,14 +1,12 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
 
-
 class Company(Base):
 
-    __tablename__="companies"
-
-
+    __tablename__ = "companies"
 
     id = Column(
         Integer,
@@ -16,26 +14,37 @@ class Company(Base):
         index=True
     )
 
-
     name = Column(
         String,
         nullable=False
     )
 
-
     plan = Column(
         String,
-        default="FREE"
+        default="FREE",
+        nullable=False
     )
-
 
     document_limit = Column(
         Integer,
-        default=100
+        default=100,
+        nullable=False
     )
-
 
     documents_used = Column(
         Integer,
-        default=0
+        default=0,
+        nullable=False
+    )
+
+    users = relationship(
+        "User",
+        back_populates="company",
+        cascade="all, delete-orphan"
+    )
+
+    documents = relationship(
+        "Document",
+        back_populates="company",
+        cascade="all, delete-orphan"
     )

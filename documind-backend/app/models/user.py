@@ -1,14 +1,12 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
 
-
 class User(Base):
 
-    __tablename__="users"
-
-
+    __tablename__ = "users"
 
     id = Column(
         Integer,
@@ -16,36 +14,41 @@ class User(Base):
         index=True
     )
 
-
     firstname = Column(
-        String
+        String,
+        nullable=False
     )
-
 
     lastname = Column(
-        String
+        String,
+        nullable=False
     )
-
 
     email = Column(
         String,
         unique=True,
-        index=True
+        index=True,
+        nullable=False
     )
-
 
     password_hash = Column(
-        String
+        String,
+        nullable=False
     )
-
 
     role = Column(
         String,
-        default="USER"
+        default="USER",
+        nullable=False
     )
-
 
     company_id = Column(
         Integer,
-        ForeignKey("companies.id")
+        ForeignKey("companies.id"),
+        nullable=False
+    )
+
+    company = relationship(
+        "Company",
+        back_populates="users"
     )
