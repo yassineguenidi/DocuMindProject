@@ -113,9 +113,30 @@ p-3
 
           <button
 
-            onClick={() => {
-              login(email, password);
-              window.location.href = "/dashboard";
+            onClick={async () => {
+
+              try {
+
+                await login(
+                  email,
+                  password
+                );
+
+                window.location.href = "/dashboard";
+
+              } catch (error) {
+
+                console.error(
+                  "Login failed",
+                  error
+                );
+
+                alert(
+                  "Email ou mot de passe incorrect"
+                );
+
+              }
+
             }}
 
             className="

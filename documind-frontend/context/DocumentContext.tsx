@@ -1,42 +1,43 @@
 import {
-
-createContext,
-
-useContext,
-
-useState,
-
-type ReactNode
-
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    type ReactNode
 } from "react";
 
 
 import type { Document } from "../types/document";
 
 
-import { mockDocuments } from "../data/mockData";
+import {
+    getDocuments,
+    deleteDocument
+} from "../services/documentService";
 
 
 
 interface DocumentContextType {
 
 
-documents:Document[];
+    documents: Document[];
 
 
-addDocument:(document:Document)=>void;
+    refreshDocuments: () => Promise<void>;
 
 
-removeDocument:(id:number)=>void;
+    removeDocument: (
+        id: number
+    ) => Promise<void>;
 
 
 }
 
 
 
-
 const DocumentContext =
-createContext<DocumentContextType | null>(null);
+    createContext<DocumentContextType | null>(null);
+
 
 
 
@@ -44,32 +45,154 @@ createContext<DocumentContextType | null>(null);
 
 export function DocumentProvider({
 
-children
+    children
 
-}:{
+}: {
 
-children:ReactNode
+    children: ReactNode
 
-}){
-
-
-const [documents,setDocuments] =
-
-useState<Document[]>(mockDocuments);
+}) {
 
 
 
+    const [documents, setDocuments] =
+
+        useState<Document[]>([]);
 
 
-function addDocument(document:Document){
 
-setDocuments(prev=>[
 
-document,
 
-...prev
 
-]);
+
+    async function refreshDocuments() {
+
+
+        try {
+
+
+            const data: Document[] =
+
+                await getDocuments();
+
+
+
+            setDocuments(data);
+
+
+
+        } catch (error) {
+
+
+            console.error(
+
+                "Error loading documents:",
+
+                error
+
+            );
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+    useEffect(() => {
+
+
+        refreshDocuments();
+
+
+    }, []);
+
+
+
+
+
+
+
+
+
+    async function removeDocument(
+
+        id: number
+
+    ) {
+
+
+        try {
+
+
+            await deleteDocument(id);
+
+
+
+            setDocuments(prev =>
+
+                prev.filter(
+
+                    doc => doc.id !== id
+
+                )
+
+            );
+
+
+
+        } catch (error) {
+
+
+            console.error(
+
+                "Error deleting document:",
+
+                error
+
+            );
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+    return (
+
+        <DocumentContext.Provider
+
+            value={{
+
+                documents,
+
+                refreshDocuments,
+
+                removeDocument
+
+            }}
+
+        >
+
+            {children}
+
+        </DocumentContext.Provider>
+
+    );
+
 
 }
 
@@ -77,73 +200,35 @@ document,
 
 
 
-function removeDocument(id:number){
-
-setDocuments(prev=>
-
-prev.filter(
-
-doc=>doc.id !== id
-
-)
-
-);
-
-}
 
 
 
 
+export function useDocuments() {
 
-return (
 
-<DocumentContext.Provider
+    const context =
 
-value={{
-
-documents,
-
-addDocument,
-
-removeDocument
-
-}}
-
->
-
-{children}
-
-</DocumentContext.Provider>
-
-);
-
-}
+        useContext(DocumentContext);
 
 
 
 
-
-export function useDocuments(){
-
-
-const context =
-useContext(DocumentContext);
+    if (!context) {
 
 
+        throw new Error(
 
-if(!context){
+            "useDocuments must be used inside DocumentProvider"
 
-throw new Error(
+        );
 
-"useDocuments must be used inside DocumentProvider"
 
-);
-
-}
+    }
 
 
 
-return context;
+    return context;
 
 
 }

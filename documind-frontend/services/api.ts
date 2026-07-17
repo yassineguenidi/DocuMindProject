@@ -3,18 +3,22 @@ import axios from "axios";
 
 const api = axios.create({
 
-    baseURL: "http://localhost:8000",
+    baseURL: "http://127.0.0.1:8000/api/v1",
+
+    headers: {
+        "Content-Type": "application/json"
+    }
 
 });
 
 
+// Ajouter automatiquement le JWT
 
 api.interceptors.request.use(
-
     (config) => {
 
-
-        const token = localStorage.getItem("token");
+        const token =
+            localStorage.getItem("token");
 
 
         if (token) {
@@ -27,12 +31,8 @@ api.interceptors.request.use(
 
         return config;
 
-
     }
-
-
 );
-
 
 
 export default api;

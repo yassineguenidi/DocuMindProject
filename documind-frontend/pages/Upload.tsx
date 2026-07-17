@@ -6,82 +6,115 @@ import FileUpload from "../components/FileUpload";
 
 import DocumentTypeSelector from "../components/DocumentTypeSelector";
 
-import { useDocuments } from "../context/DocumentContext";
+import Button from "../components/Button";
 
-import { useQuota } from "../hooks/useQuota";
+import {
+    uploadDocument
+} from "../services/documentService";
 
-import { useCompany } from "../context/CompanyContext";
+import {
+    useDocuments
+} from "../context/DocumentContext";
+
+
 
 
 function Upload() {
 
 
-    const { incrementDocuments } = useCompany();
+    const [type, setType] = useState("");
 
     const [file, setFile] = useState<File | null>(null);
 
-    const [type, setType] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const { addDocument } = useDocuments();
 
     const {
-        canUpload,
-        remainingDocuments
-    } = useQuota();
+        refreshDocuments
+    } = useDocuments();
 
 
-    const handleUpload = () => {
+
+
+
+    async function handleUpload() {
+
 
         if (!file) {
 
-            alert("Veuillez sélectionner un fichier");
-
-            return;
-
-        }
-
-        if (!canUpload()) {
-
             alert(
-                "Votre quota est atteint. Veuillez changer votre offre."
+                "Veuillez sélectionner un fichier"
             );
 
             return;
 
         }
 
-        addDocument({
-
-            id: Date.now(),
-
-            name: file.name,
-
-            size: file.size,
-
-            type: type || "AUTRE",
-
-            status: "UPLOADING",
-
-            createdAt: new Date().toISOString(),
-
-            updatedAt: new Date().toISOString(),
-
-            pages: 0,
-
-            owner: "Yassine",
-
-            companyId: 1
-
-        });
-
-        incrementDocuments();
 
 
-    };
+        try {
+
+
+            setLoading(true);
+
+
+
+            await uploadDocument(
+
+                file,
+
+                type || "Autre"
+
+            );
+
+
+
+            await refreshDocuments();
+
+
+
+            alert(
+                "Document envoyé avec succès"
+            );
+
+
+
+            setFile(null);
+
+
+
+        } catch (error) {
+
+
+            console.error(
+                error
+            );
+
+
+            alert(
+                "Erreur lors de l'envoi"
+            );
+
+
+        } finally {
+
+
+            setLoading(false);
+
+
+        }
+
+
+    }
+
+
+
+
 
 
 
     return (
+
 
         <DashboardLayout>
 
@@ -89,13 +122,16 @@ function Upload() {
             <div className="space-y-8">
 
 
+
                 <div>
+
 
                     <h1 className="text-3xl font-bold">
 
                         Importer un document
 
                     </h1>
+
 
 
                     <p className="text-gray-500 mt-2">
@@ -106,6 +142,9 @@ function Upload() {
 
 
                 </div>
+
+
+
 
 
 
@@ -120,6 +159,7 @@ function Upload() {
                 >
 
 
+
                     <DocumentTypeSelector
 
                         value={type}
@@ -130,30 +170,34 @@ function Upload() {
 
 
 
+
+
                     <FileUpload
 
                         onFileSelect={setFile}
+
                     />
 
 
 
-                    <button
+
+
+
+                    <Button
 
                         onClick={handleUpload}
 
-                        className="
-                        bg-blue-600
-                        text-white
-                        px-6
-                        py-3
-                        rounded-lg
-                        "
-
                     >
 
-                        Ajouter le document
+                        {
+                            loading
+                                ? "Upload..."
+                                : "Envoyer le document"
+                        }
 
-                    </button>
+
+                    </Button>
+
 
 
 
@@ -161,12 +205,16 @@ function Upload() {
 
 
 
+
             </div>
+
 
 
         </DashboardLayout>
 
+
     );
+
 
 }
 

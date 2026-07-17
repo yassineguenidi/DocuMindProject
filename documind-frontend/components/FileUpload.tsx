@@ -3,14 +3,18 @@ import { useState } from "react";
 
 interface FileUploadProps {
 
-  onFileSelect: (file: File) => void;
+  onFileSelect: (
+    file: File
+  ) => void;
 
 }
 
 
 
 function FileUpload({
+
   onFileSelect
+
 }: FileUploadProps) {
 
 
@@ -18,32 +22,31 @@ function FileUpload({
 
 
 
-  const handleChange = (
+  function handleChange(
     e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  ) {
 
 
-    const file = e.target.files?.[0];
+    const file =
+      e.target.files?.[0];
+
 
 
     if (file) {
 
-
       setFileName(file.name);
-
 
       onFileSelect(file);
 
-
     }
 
+  }
 
-  };
+
 
 
 
   return (
-
 
     <div
       className="
@@ -79,34 +82,31 @@ function FileUpload({
         className="
                 cursor-pointer
                 text-blue-600
-                font-medium
                 "
 
       >
 
-        Choisir un fichier PDF
+        Choisir un document PDF
 
       </label>
 
 
 
+
       {
+        fileName &&
 
-        fileName && (
+        <p className="mt-4 text-gray-600">
 
-          <p className="mt-4 text-gray-600">
+          {fileName}
 
-            {fileName}
-
-          </p>
-
-        )
+        </p>
 
       }
 
 
-    </div>
 
+    </div>
 
   );
 

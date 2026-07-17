@@ -17,7 +17,11 @@ import {
 } from "lucide-react";
 
 function Dashboard() {
-    const { documents } = useDocuments();
+    // const { documents } = useDocuments();
+    const {
+        documents,
+        removeDocument
+    } = useDocuments();
     const { company } = useCompany();
 
     const quotaPercentage = Math.round(
@@ -94,6 +98,9 @@ function Dashboard() {
                                 <th className="text-left p-3">Document</th>
                                 <th className="text-left p-3">Date</th>
                                 <th className="text-left p-3">Statut</th>
+                                <th className="text-left p-3">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
 
@@ -119,6 +126,25 @@ function Dashboard() {
                                             }`}
                                     >
                                         <StatusBadge status={doc.status} />
+                                    </td>
+
+                                    <td className="p-3">
+
+                                        <button
+
+                                            onClick={() => removeDocument(doc.id)}
+
+                                            className="
+        text-red-600
+        hover:text-red-800
+        "
+
+                                        >
+
+                                            Supprimer
+
+                                        </button>
+
                                     </td>
                                 </tr>
                             ))}

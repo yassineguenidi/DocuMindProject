@@ -5,16 +5,19 @@ import {
     type ReactNode
 } from "react";
 
-
 import type { User } from "../types/user";
 
+import { loginUser } from "../services/authService";
 
 
 interface AuthContextType {
 
     user: User | null;
 
-    login: (email: string, password: string) => void;
+    login: (
+        email: string,
+        password: string
+    ) => Promise<void>;
 
     logout: () => void;
 
@@ -27,8 +30,6 @@ const AuthContext =
 
 
 
-
-
 export function AuthProvider({
     children
 }: {
@@ -36,92 +37,75 @@ export function AuthProvider({
 }) {
 
 
+    const [user, setUser] = useState<User | null>(
 
-    const [user, setUser] = useState<User | null>(() => {
+        () => {
 
-
-        const saved =
-            localStorage.getItem("user");
-
-
-        return saved
-            ? JSON.parse(saved)
-            : null;
+            const saved =
+                localStorage.getItem("user");
 
 
-    });
+            return saved
+                ? JSON.parse(saved)
+                : null;
 
+        }
 
-
+    );
 
 
 
-    const login = (
+
+    const login = async (
         email: string,
         password: string
     ) => {
 
 
-        // Simulation utilisateur
-        // Plus tard remplacé par API FastAPI + JWT
-
-        const fakeUser: User = {
-
-
-            id: 1,
-
-
-            firstname: "Yassine",
-
-
-            lastname: "Guenidi",
-
-
-            email,
-
-
-            role: "ADMIN",
-
-
-            companyId: 1
-
-
-        };
-
-
+        const response =
+            await loginUser(
+                email,
+                password
+            );
 
 
 
         localStorage.setItem(
-
-            "user",
-
-            JSON.stringify(fakeUser)
-
-        );
-
-
-
-        localStorage.setItem(
-
             "token",
-
-            "fake-token"
-
+            response.access_token
         );
 
 
 
+        // récupérer l'utilisateur connecté
+
+        const userResponse =
+            await fetch(
+                "http://127.0.0.1:8000/api/v1/auth/me",
+                {
+                    headers: {
+                        Authorization:
+                            `Bearer ${response.access_token}`
+                    }
+                }
+            );
 
 
-        setUser(fakeUser);
+
+        const currentUser =
+            await userResponse.json();
 
 
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(currentUser)
+        );
+
+
+        setUser(currentUser);
 
     };
-
-
-
 
 
 
@@ -130,17 +114,12 @@ export function AuthProvider({
     const logout = () => {
 
 
+        localStorage.removeItem("token");
 
         localStorage.removeItem("user");
 
 
-        localStorage.removeItem("token");
-
-
-
         setUser(null);
-
-
 
     };
 
@@ -148,71 +127,44 @@ export function AuthProvider({
 
 
 
-
-
-
     return (
-
 
         <AuthContext.Provider
 
             value={{
-
                 user,
-
                 login,
-
                 logout
-
             }}
 
         >
 
-
             {children}
-
 
         </AuthContext.Provider>
 
-
     );
-
-
 
 }
 
 
 
 
-
-
-
-
 export function useAuth() {
 
-
-
-    const context = useContext(AuthContext);
-
-
+    const context =
+        useContext(AuthContext);
 
 
     if (!context) {
 
-
         throw new Error(
-
             "useAuth must be used inside AuthProvider"
-
         );
-
 
     }
 
 
-
     return context;
-
-
 
 }
