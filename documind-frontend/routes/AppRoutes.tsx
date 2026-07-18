@@ -39,6 +39,7 @@ function AppRoutes() {
                 />
 
 
+
                 <Route
                     path="/register"
                     element={<Register />}

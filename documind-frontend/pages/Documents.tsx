@@ -1,13 +1,16 @@
 import { useState } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
-import Card from "../components/Card";
-import Modal from "../components/Modal";
+import Card from "../components/ui/Card";
+import Modal from "../components/ui/Modal";
 import { useDocuments } from "../context/DocumentContext";
 import {
     Search,
     Eye,
     Download,
-    Trash2
+    Trash2,
+    FileText,
+    Filter,
+    ArrowUpDown
 } from "lucide-react";
 
 
@@ -16,37 +19,14 @@ function Documents() {
 
     const [search, setSearch] = useState("");
 
+    const [typeFilter, setTypeFilter] = useState("ALL");
+
+    const [sortBy, setSortBy] = useState("date");
+
     const [selectedDocument, setSelectedDocument] = useState<any>(null);
 
 
 
-    // const documents = [
-
-    //     {
-    //         id: 1,
-    //         name: "facture_client.pdf",
-    //         type: "Facture",
-    //         date: "13/07/2026",
-    //         status: "Terminé"
-    //     },
-
-    //     {
-    //         id: 2,
-    //         name: "contrat_service.pdf",
-    //         type: "Contrat",
-    //         date: "12/07/2026",
-    //         status: "Analyse"
-    //     },
-
-    //     {
-    //         id: 3,
-    //         name: "cv_candidat.pdf",
-    //         type: "CV",
-    //         date: "10/07/2026",
-    //         status: "Terminé"
-    //     }
-
-    // ];
     const { documents } = useDocuments();
 
 

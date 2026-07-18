@@ -35,16 +35,34 @@ function Button({
 
     const styles = {
 
+
         primary:
-            "bg-blue-600 text-white hover:bg-blue-700",
+        `
+        bg-blue-600
+        text-white
+        hover:bg-blue-700
+        shadow-sm
+        `,
+
 
         secondary:
-            "bg-gray-200 text-gray-700 hover:bg-gray-300",
+        `
+        bg-slate-100
+        text-slate-700
+        hover:bg-slate-200
+        `,
+
 
         danger:
-            "bg-red-600 text-white hover:bg-red-700"
+        `
+        bg-red-600
+        text-white
+        hover:bg-red-700
+        `
+
 
     };
+
 
 
 
@@ -52,29 +70,41 @@ function Button({
 
         <button
 
+
             type={type}
 
             onClick={onClick}
 
             disabled={disabled}
 
+
             className={`
-        px-5
-        py-3
-        rounded-lg
-        font-medium
-        transition
-        disabled:opacity-50
-        ${styles[variant]}
-      `}
+                px-5
+                py-3
+                rounded-xl
+                font-medium
+                text-sm
+                transition-all
+                duration-200
+                active:scale-95
+                disabled:opacity-50
+                disabled:cursor-not-allowed
+
+                ${styles[variant]}
+            `}
+
 
         >
 
+
             {children}
+
 
         </button>
 
+
     );
+
 
 }
 
