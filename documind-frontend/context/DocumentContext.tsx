@@ -65,38 +65,38 @@ export function DocumentProvider({
 
 
 
-    async function refreshDocuments() {
+    // async function refreshDocuments() {
 
 
-        try {
+    //     try {
 
 
-            const data: Document[] =
+    //         const data: Document[] =
 
-                await getDocuments();
-
-
-
-            setDocuments(data);
+    //             await getDocuments();
 
 
 
-        } catch (error) {
+    //         setDocuments(data);
 
 
-            console.error(
 
-                "Error loading documents:",
-
-                error
-
-            );
+    //     } catch (error) {
 
 
-        }
+    //         console.error(
+
+    //             "Error loading documents:",
+
+    //             error
+
+    //         );
 
 
-    }
+    //     }
+
+
+    // }
 
 
 
@@ -115,6 +115,29 @@ export function DocumentProvider({
 
 
 
+    async function refreshDocuments() {
+
+        try {
+
+            const data: Document[] = await getDocuments();
+
+
+            console.log("DOCUMENTS API =", data);
+
+
+            setDocuments(data);
+
+
+        } catch (error) {
+
+            console.error(
+                "Error loading documents:",
+                error
+            );
+
+        }
+
+    }
 
 
 
@@ -232,3 +255,5 @@ export function useDocuments() {
 
 
 }
+
+

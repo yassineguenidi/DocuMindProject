@@ -2,11 +2,13 @@ import { useState } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 
-import FileUpload from "../components/FileUpload";
+import FileUpload from "../components/documents/FileUpload";
 
-import DocumentTypeSelector from "../components/DocumentTypeSelector";
+import DocumentTypeSelector from "../components/ui/DocumentTypeSelector";
 
-import Button from "../components/Button";
+import Button from "../components/ui/Button";
+
+import toast from "react-hot-toast";
 
 import {
     uploadDocument
@@ -73,7 +75,7 @@ function Upload() {
 
 
 
-            alert(
+            toast.success(
                 "Document envoyé avec succès"
             );
 
@@ -91,7 +93,7 @@ function Upload() {
             );
 
 
-            alert(
+            toast.error(
                 "Erreur lors de l'envoi"
             );
 

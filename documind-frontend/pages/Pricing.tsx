@@ -1,8 +1,8 @@
 import DashboardLayout from "../layouts/DashboardLayout";
 
-import Card from "../components/Card";
+import Card from "../components/ui/Card";
 
-import Button from "../components/Button";
+import Button from "../components/ui/Button";
 
 import { plans } from "../data/plans";
 

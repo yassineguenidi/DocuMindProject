@@ -9,6 +9,8 @@ import { AuthProvider } from "../context/AuthContext";
 import { CompanyProvider } from "../context/CompanyContext";
 import { DocumentProvider } from "../context/DocumentContext";
 
+import { Toaster } from "react-hot-toast";
+
 ReactDOM.createRoot(
   document.getElementById("root")!
 )
@@ -23,6 +25,10 @@ ReactDOM.createRoot(
           <DocumentProvider>
 
             <App />
+
+            <Toaster
+              position="top-right"
+            />
 
           </DocumentProvider>
 

@@ -11,7 +11,10 @@ interface ButtonProps {
 
     disabled?: boolean;
 
-    variant?: "primary" | "secondary" | "danger";
+    variant?:
+    "primary" |
+    "secondary" |
+    "danger";
 
 }
 
@@ -29,6 +32,7 @@ function Button({
 
     variant = "primary"
 
+
 }: ButtonProps) {
 
 
@@ -37,24 +41,23 @@ function Button({
 
 
         primary:
-        `
+            `
         bg-blue-600
         text-white
         hover:bg-blue-700
-        shadow-sm
         `,
 
 
         secondary:
-        `
-        bg-slate-100
-        text-slate-700
-        hover:bg-slate-200
+            `
+        bg-gray-100
+        text-gray-700
+        hover:bg-gray-200
         `,
 
 
         danger:
-        `
+            `
         bg-red-600
         text-white
         hover:bg-red-700
@@ -65,11 +68,9 @@ function Button({
 
 
 
-
     return (
 
         <button
-
 
             type={type}
 
@@ -79,23 +80,19 @@ function Button({
 
 
             className={`
-                px-5
-                py-3
-                rounded-xl
-                font-medium
-                text-sm
-                transition-all
-                duration-200
-                active:scale-95
-                disabled:opacity-50
-                disabled:cursor-not-allowed
-
-                ${styles[variant]}
+            px-5
+            py-2.5
+            rounded-xl
+            font-medium
+            transition-all
+            duration-200
+            active:scale-95
+            disabled:opacity-50
+            ${styles[variant]}
             `}
 
 
         >
-
 
             {children}
 
@@ -105,8 +102,120 @@ function Button({
 
     );
 
-
 }
 
 
 export default Button;
+
+// import type { ReactNode } from "react";
+
+
+// interface ButtonProps {
+
+//     children: ReactNode;
+
+//     type?: "button" | "submit" | "reset";
+
+//     onClick?: () => void;
+
+//     disabled?: boolean;
+
+//     variant?: "primary" | "secondary" | "danger";
+
+// }
+
+
+
+// function Button({
+
+//     children,
+
+//     type = "button",
+
+//     onClick,
+
+//     disabled = false,
+
+//     variant = "primary"
+
+// }: ButtonProps) {
+
+
+
+//     const styles = {
+
+
+//         primary:
+//         `
+//         bg-blue-600
+//         text-white
+//         hover:bg-blue-700
+//         shadow-sm
+//         `,
+
+
+//         secondary:
+//         `
+//         bg-slate-100
+//         text-slate-700
+//         hover:bg-slate-200
+//         `,
+
+
+//         danger:
+//         `
+//         bg-red-600
+//         text-white
+//         hover:bg-red-700
+//         `
+
+
+//     };
+
+
+
+
+//     return (
+
+//         <button
+
+
+//             type={type}
+
+//             onClick={onClick}
+
+//             disabled={disabled}
+
+
+//             className={`
+//                 px-5
+//                 py-3
+//                 rounded-xl
+//                 font-medium
+//                 text-sm
+//                 transition-all
+//                 duration-200
+//                 active:scale-95
+//                 disabled:opacity-50
+//                 disabled:cursor-not-allowed
+
+//                 ${styles[variant]}
+//             `}
+
+
+//         >
+
+
+//             {children}
+
+
+//         </button>
+
+
+//     );
+
+
+// }
+
+
+// export default Button;

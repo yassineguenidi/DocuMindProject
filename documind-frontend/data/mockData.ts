@@ -60,7 +60,7 @@ export const mockDocuments: Document[] = [
 
         status: "COMPLETED",
 
-        createdAt: "2026-07-12",
+        created_At: "2026-07-12",
 
         updatedAt: "2026-07-12",
 
@@ -86,7 +86,7 @@ export const mockDocuments: Document[] = [
 
         status: "AI_PROCESSING",
 
-        createdAt: "2026-07-11",
+        created_At: "2026-07-11",
 
         updatedAt: "2026-07-11",
 
@@ -112,7 +112,7 @@ export const mockDocuments: Document[] = [
 
         status: "COMPLETED",
 
-        createdAt: "2026-07-10",
+        created_At: "2026-07-10",
 
         updatedAt: "2026-07-10",
 

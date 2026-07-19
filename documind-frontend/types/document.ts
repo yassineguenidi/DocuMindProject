@@ -28,7 +28,7 @@ export interface Document {
 
     status: DocumentStatus;
 
-    createdAt: string;
+    created_At: string;
 
     updatedAt: string;
 
@@ -39,77 +39,3 @@ export interface Document {
     companyId: number;
 
 }
-
-// export interface Document {
-
-//     id: number;
-
-//     name: string;
-
-//     fileUrl: string;
-
-//     status:
-//     | "pending"
-//     | "processing"
-//     | "completed"
-//     | "failed";
-
-//     createdAt: string;
-
-// }
-
-
-
-// export interface User {
-
-//     id: number;
-
-//     name: string;
-
-//     email: string;
-
-//     role:
-//     | "admin"
-//     | "manager"
-//     | "employee";
-
-// }
-
-
-
-// export interface Company {
-
-//     id: number;
-
-//     name: string;
-
-//     plan:
-//     | "free"
-//     | "starter"
-//     | "business"
-//     | "enterprise";
-
-//     documentLimit: number;
-
-//     documentsUsed: number;
-
-// }
-
-
-
-// export interface Subscription {
-
-//     id: number;
-
-//     plan: string;
-
-//     status:
-//     | "active"
-//     | "expired";
-
-//     startDate: string;
-
-//     endDate: string;
-
-// }
-

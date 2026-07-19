@@ -126,3 +126,14 @@ class DocumentService:
 
 
         return True
+    
+
+    def get_document(
+            self,
+            document_id: int
+            ):
+        return (
+            self.db.query(Document)
+            .filter(Document.id == document_id)
+            .first()
+            )

@@ -14,6 +14,7 @@ from app.services.document_service import DocumentService
 
 from app.schemas.document import DocumentResponse
 
+from fastapi.responses import FileResponse
 
 
 router = APIRouter(
@@ -138,3 +139,67 @@ def delete_document(
             status_code=400,
             detail=str(e)
         )
+
+
+@router.get("/{document_id}/download")
+def download_document(
+    document_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    service = DocumentService(db)
+
+
+    try:
+
+        document = service.get_document(
+            document_id
+        )
+
+
+        if not document:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Document not found"
+            )
+
+
+        # sécurité : vérifier que le document appartient à l'entreprise
+
+        if document.company_id != current_user.company_id:
+
+            raise HTTPException(
+                status_code=403,
+                detail="Access denied"
+            )
+
+
+        if not os.path.exists(
+            document.file_path
+        ):
+
+            raise HTTPException(
+                status_code=404,
+                detail="File not found"
+            )
+
+
+        return FileResponse(
+
+            path=document.file_path,
+
+            filename=document.name,
+
+            media_type="application/pdf"
+
+        )
+
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )        
