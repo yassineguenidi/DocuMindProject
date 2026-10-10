@@ -58,7 +58,8 @@ app.add_middleware(
     CORSMiddleware,
 
     allow_origins=[
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "https://documind-ia-project-vd29.vercel.app",
     ],
 
     allow_credentials=True,
